@@ -4,6 +4,20 @@ import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
 import { formatPercent, formatUptime } from '@/lib/formatters';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>Real-time CPU load for the JVM process and the host system, plus process uptime and available CPU cores.</p>
+    <div className="mt-3">
+      <InfoRow name="process_cpu_usage" desc="Fraction of total CPU time consumed by the JVM process (0–100%)." />
+      <InfoRow name="system_cpu_usage" desc="Overall system-wide CPU utilization across all processes (0–100%)." />
+      <InfoRow name="process_uptime_seconds" desc="Elapsed seconds since the JVM process started." />
+      <InfoRow name="system_cpu_count" desc="Number of logical CPU cores visible to the JVM." />
+    </div>
+    <p className="mt-3 text-gray-400 text-xs">The chart tracks both CPU values over the last ~30 polling intervals (≈15 min).</p>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -34,11 +48,7 @@ export function SystemOverviewPanel({ latest, history }: Props) {
   }));
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        System Overview
-      </h2>
-
+    <PanelCard title="System Overview" info={info}>
       <div className="grid grid-cols-3 gap-3">
         <StatCard label="Process CPU" value={formatPercent(processCpu)} />
         <StatCard label="System CPU" value={formatPercent(systemCpu)} />
@@ -59,6 +69,6 @@ export function SystemOverviewPanel({ latest, history }: Props) {
           yTickFormatter={(v) => formatPercent(v)}
         />
       )}
-    </div>
+    </PanelCard>
   );
 }

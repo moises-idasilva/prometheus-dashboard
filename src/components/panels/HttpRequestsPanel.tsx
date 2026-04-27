@@ -2,6 +2,23 @@
 
 import { MetricsHistory, MetricsSnapshot, ParsedMetric } from '@/types/metrics';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>HTTP response-code totals since service start, per-second request rates over time, and the top 8 endpoints by volume.</p>
+    <div className="mt-3">
+      <InfoRow name="http_server_requests_seconds_count" desc="Total completed requests, labelled by URI, HTTP method, and status code." />
+      <InfoRow name="http_server_requests_seconds_sum" desc="Cumulative time spent handling requests. Dividing by count gives average latency." />
+    </div>
+    <ul className="mt-3 text-xs text-gray-400 list-disc list-inside space-y-1">
+      <li><span className="text-green-400">2xx</span> — successful responses</li>
+      <li><span className="text-yellow-400">4xx</span> — client errors (bad request, auth, not found)</li>
+      <li><span className="text-red-400">5xx</span> — server errors (worth alerting on)</li>
+    </ul>
+    <p className="mt-3 text-gray-400 text-xs">/actuator endpoints are excluded from the top-endpoints list.</p>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -79,11 +96,7 @@ export function HttpRequestsPanel({ latest, history }: Props) {
   const total5xx = sumCountByStatus(m, '5');
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        HTTP Requests
-      </h2>
-
+    <PanelCard title="HTTP Requests" info={info}>
       <div className="grid grid-cols-3 gap-3">
         {[
           { label: '2xx', value: total2xx, color: 'text-green-400' },
@@ -129,6 +142,6 @@ export function HttpRequestsPanel({ latest, history }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </PanelCard>
   );
 }

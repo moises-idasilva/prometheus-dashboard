@@ -2,6 +2,20 @@
 
 import { MetricsSnapshot } from '@/types/metrics';
 import { formatBytes } from '@/lib/formatters';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>Storage utilisation per filesystem mountpoint, updated with each metrics poll.</p>
+    <div className="mt-3">
+      <InfoRow name="disk_free_bytes" desc="Free (available) bytes on the mountpoint." />
+      <InfoRow name="disk_total_bytes" desc="Total capacity of the filesystem." />
+    </div>
+    <ul className="mt-3 text-xs text-gray-400 list-disc list-inside space-y-1">
+      <li>Progress bar is <span className="text-blue-400">blue</span> below 75%, <span className="text-yellow-400">yellow</span> from 75–90%, and <span className="text-red-400">red</span> at 90%+.</li>
+    </ul>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -46,11 +60,7 @@ export function DiskUsagePanel({ latest }: Props) {
   const entries = getDiskEntries(latest);
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        Disk Usage
-      </h2>
-
+    <PanelCard title="Disk Usage" info={info}>
       {entries.length === 0 ? (
         <p className="text-gray-500 text-sm text-center py-4">Waiting for data...</p>
       ) : (
@@ -87,6 +97,6 @@ export function DiskUsagePanel({ latest }: Props) {
           </div>
         ))
       )}
-    </div>
+    </PanelCard>
   );
 }

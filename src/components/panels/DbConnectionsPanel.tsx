@@ -12,6 +12,20 @@ import {
 } from 'recharts';
 import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>Monitors the HikariCP JDBC connection pool health in real time.</p>
+    <div className="mt-3">
+      <InfoRow name="hikaricp_connections_active" desc="Connections currently checked out and executing queries." />
+      <InfoRow name="hikaricp_connections_idle" desc="Connections in the pool ready to be used." />
+      <InfoRow name="hikaricp_connections_pending" desc="Threads waiting to acquire a connection. A non-zero value signals a bottleneck." />
+      <InfoRow name="hikaricp_connections_max" desc="Maximum pool size as configured in HikariCP." />
+    </div>
+    <p className="mt-3 text-gray-400 text-xs">If pending threads appear, consider increasing pool size or optimising query duration.</p>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -49,11 +63,7 @@ export function DbConnectionsPanel({ latest, history }: Props) {
   });
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        Database Connections
-      </h2>
-
+    <PanelCard title="Database Connections" info={info}>
       <div className="grid grid-cols-2 gap-3">
         <StatCard label="Active" value={active} color="text-orange-400" />
         <StatCard label="Idle" value={idle} color="text-green-400" />
@@ -91,6 +101,6 @@ export function DbConnectionsPanel({ latest, history }: Props) {
           </AreaChart>
         </ResponsiveContainer>
       )}
-    </div>
+    </PanelCard>
   );
 }

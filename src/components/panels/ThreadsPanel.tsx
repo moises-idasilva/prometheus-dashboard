@@ -12,6 +12,24 @@ import {
 } from 'recharts';
 import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>JVM thread counts by state — live, daemon, peak, and a bar-chart breakdown per thread state.</p>
+    <div className="mt-3">
+      <InfoRow name="jvm_threads_live_threads" desc="Currently live (non-terminated) threads." />
+      <InfoRow name="jvm_threads_daemon_threads" desc="Live daemon threads (background JVM housekeeping threads)." />
+      <InfoRow name="jvm_threads_peak_threads" desc="Highest live thread count since JVM start." />
+      <InfoRow name="jvm_threads_states_threads" desc="Per-state breakdown labelled by state." />
+    </div>
+    <ul className="mt-3 text-xs text-gray-400 list-disc list-inside space-y-1">
+      <li><span className="text-green-400">RUNNABLE</span> — executing or ready to execute</li>
+      <li><span className="text-red-400">BLOCKED</span> — waiting on a monitor lock; spikes may indicate contention</li>
+      <li><span className="text-blue-400">WAITING / TIMED_WAITING</span> — parked waiting for a signal or timeout</li>
+    </ul>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -47,11 +65,7 @@ export function ThreadsPanel({ latest, history }: Props) {
   }));
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        JVM Threads
-      </h2>
-
+    <PanelCard title="JVM Threads" info={info}>
       <div className="grid grid-cols-3 gap-3">
         {[
           { label: 'Live', value: liveThreads, color: 'text-green-400' },
@@ -105,6 +119,6 @@ export function ThreadsPanel({ latest, history }: Props) {
           ))}
         </div>
       )}
-    </div>
+    </PanelCard>
   );
 }

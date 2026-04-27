@@ -1,9 +1,24 @@
 'use client';
 
 import { MetricsHistory, MetricsSnapshot, ParsedMetric } from '@/types/metrics';
-import { sumSampleValues } from '@/hooks/useMetrics';
 import { formatBytes, formatBytesOrUnlimited } from '@/lib/formatters';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
+import { PanelCard, InfoRow } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>Tracks heap and non-heap memory consumption inside the JVM.</p>
+    <ul className="mt-2 text-xs text-gray-400 list-disc list-inside space-y-1">
+      <li><span className="text-gray-300">Heap</span> — object store managed by garbage collection. Pressure rises as used approaches max.</li>
+      <li><span className="text-gray-300">Non-Heap</span> — class metadata, compiled-code cache (metaspace, code cache). Usually stable.</li>
+    </ul>
+    <div className="mt-3">
+      <InfoRow name="jvm_memory_used_bytes" desc="Bytes currently occupied in each memory area." />
+      <InfoRow name="jvm_memory_committed_bytes" desc="Bytes the JVM has reserved from the OS (may exceed used)." />
+      <InfoRow name="jvm_memory_max_bytes" desc="Upper limit the JVM can use; -1 means unlimited." />
+    </div>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -61,11 +76,7 @@ export function JvmMemoryPanel({ latest, history }: Props) {
   }));
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-        JVM Memory
-      </h2>
-
+    <PanelCard title="JVM Memory" info={info}>
       <div className="flex flex-col gap-3">
         <MemBar used={heapUsed} max={heapMax} label="Heap" />
         <MemBar used={nonheapUsed} max={-1} label="Non-Heap" />
@@ -95,6 +106,6 @@ export function JvmMemoryPanel({ latest, history }: Props) {
           />
         </>
       )}
-    </div>
+    </PanelCard>
   );
 }

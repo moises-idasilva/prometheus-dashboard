@@ -2,6 +2,23 @@
 
 import { useState, useMemo } from 'react';
 import { MetricsSnapshot } from '@/types/metrics';
+import { PanelCard } from '@/components/PanelCard';
+
+const info = (
+  <>
+    <p>Raw view of every Prometheus metric the service currently exposes. Useful for debugging and discovering available metrics.</p>
+    <ul className="mt-3 text-xs text-gray-400 list-disc list-inside space-y-1">
+      <li>Search by metric name, label key/value, or help text.</li>
+      <li>Hover any row to see the full help description in a tooltip.</li>
+    </ul>
+    <div className="mt-3 flex flex-col gap-1.5 text-xs">
+      <div className="flex gap-2"><span className="text-green-400 font-mono w-20">counter</span><span className="text-gray-400">Monotonically increasing total (e.g. request count). Use rate() for per-second rates.</span></div>
+      <div className="flex gap-2"><span className="text-blue-400 font-mono w-20">gauge</span><span className="text-gray-400">A value that can go up or down (e.g. memory used, active threads).</span></div>
+      <div className="flex gap-2"><span className="text-purple-400 font-mono w-20">histogram</span><span className="text-gray-400">Samples distributed across configurable buckets. Exposes _count, _sum, _bucket.</span></div>
+      <div className="flex gap-2"><span className="text-orange-400 font-mono w-20">summary</span><span className="text-gray-400">Pre-computed quantiles on the client side.</span></div>
+    </div>
+  </>
+);
 
 interface Props {
   latest: MetricsSnapshot | null;
@@ -62,14 +79,11 @@ export function AllMetricsTable({ latest }: Props) {
   };
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">
-          All Metrics
-        </h2>
-        <span className="text-xs text-gray-500">{filtered.length} samples</span>
-      </div>
-
+    <PanelCard
+      title="All Metrics"
+      info={info}
+      headerRight={<span className="text-xs text-gray-500">{filtered.length} samples</span>}
+    >
       <input
         type="text"
         placeholder="Search metric name, labels, or help text..."
@@ -108,6 +122,6 @@ export function AllMetricsTable({ latest }: Props) {
       ) : (
         <p className="text-gray-500 text-sm text-center py-8">Waiting for data...</p>
       )}
-    </div>
+    </PanelCard>
   );
 }
