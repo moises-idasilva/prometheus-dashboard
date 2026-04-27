@@ -9,6 +9,7 @@ import { JvmMemoryPanel } from '@/components/panels/JvmMemoryPanel';
 import { HttpRequestsPanel } from '@/components/panels/HttpRequestsPanel';
 import { DbConnectionsPanel } from '@/components/panels/DbConnectionsPanel';
 import { ThreadsPanel } from '@/components/panels/ThreadsPanel';
+import { DiskUsagePanel } from '@/components/panels/DiskUsagePanel';
 import { AllMetricsTable } from '@/components/panels/AllMetricsTable';
 
 const apis = getAllApis();
@@ -49,6 +50,7 @@ export default function DashboardPage() {
         <HttpRequestsPanel latest={latest} history={history} />
         <DbConnectionsPanel latest={latest} history={history} />
         <ThreadsPanel latest={latest} history={history} />
+        <DiskUsagePanel latest={latest} />
         <div className="col-span-1 lg:col-span-2 xl:col-span-3">
           <AllMetricsTable latest={latest} />
         </div>
