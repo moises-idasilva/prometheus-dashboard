@@ -36,9 +36,12 @@ function getTopEndpoints(metrics: ParsedMetric[]): { uri: string; count: number;
   const family = metrics.find((m) => m.metricName === 'http_server_requests_seconds');
   if (!family) return [];
 
+  const EXCLUDED_URIS = ['/actuator/prometheus', '/actuator'];
+
   const byUri = new Map<string, { count: number; sum: number }>();
   for (const sample of family.samples) {
     const uri = sample.labels.uri ?? 'unknown';
+    if (EXCLUDED_URIS.includes(uri)) continue;
     if (!byUri.has(uri)) byUri.set(uri, { count: 0, sum: 0 });
     const entry = byUri.get(uri)!;
     if (sample.sampleName === 'http_server_requests_seconds_count') entry.count += sample.value;
