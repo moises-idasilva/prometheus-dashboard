@@ -28,7 +28,7 @@ export function useMetrics(apiId: string, refreshInterval: number): UseMetricsRe
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/metrics?apiId=${encodeURIComponent(apiIdRef.current)}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/metrics?apiId=${encodeURIComponent(apiIdRef.current)}`);
       if (!res.ok) {
         const body = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
         throw new Error(body.error ?? `HTTP ${res.status}`);
