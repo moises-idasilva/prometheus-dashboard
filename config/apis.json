@@ -1,0 +1,9 @@
+[
+  {
+    "id": "cashflow",
+    "name": "Cashflow API",
+    "url": "https://app.sparxnovate.com/cashflow/actuator/prometheus",
+    "tokenEnvKey": "PROM_TOKEN_CASHFLOW",
+    "refreshInterval": 30000
+  }
+]

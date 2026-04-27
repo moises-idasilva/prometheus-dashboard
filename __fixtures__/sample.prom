@@ -1,0 +1,31 @@
+# HELP jvm_memory_used_bytes The amount of used memory
+# TYPE jvm_memory_used_bytes gauge
+jvm_memory_used_bytes{area="heap",id="G1 Eden Space"} 4.11041792E8
+jvm_memory_used_bytes{area="heap",id="G1 Old Gen"} 1.42386688E8
+jvm_memory_used_bytes{area="nonheap",id="Metaspace"} 1.21901968E8
+# HELP jvm_memory_max_bytes The maximum amount of memory in bytes
+# TYPE jvm_memory_max_bytes gauge
+jvm_memory_max_bytes{area="heap",id="G1 Eden Space"} -1.0
+jvm_memory_max_bytes{area="heap",id="G1 Old Gen"} 4.194304E9
+jvm_memory_max_bytes{area="nonheap",id="Compressed Class Space"} 1.073741824E9
+# HELP http_server_requests_seconds Duration of HTTP server request handling
+# TYPE http_server_requests_seconds summary
+http_server_requests_seconds_count{method="GET",status="200",uri="/api/cash-flow/find-list-by-period"} 18
+http_server_requests_seconds_sum{method="GET",status="200",uri="/api/cash-flow/find-list-by-period"} 0.905289774
+http_server_requests_seconds_count{method="GET",status="200",uri="/api/search?q=foo,bar"} 5
+http_server_requests_seconds_sum{method="GET",status="200",uri="/api/search?q=foo,bar"} 0.1
+# HELP process_cpu_usage The "recent cpu usage" for the JVM process
+# TYPE process_cpu_usage gauge
+process_cpu_usage 8.368200836820083E-4
+# HELP jvm_gc_pause_seconds Time spent in GC pause
+# TYPE jvm_gc_pause_seconds summary
+jvm_gc_pause_seconds_count{action="end of minor GC",gc="G1 Young Generation"} 7
+jvm_gc_pause_seconds_sum{action="end of minor GC",gc="G1 Young Generation"} 0.226
+# HELP some_sentinel_metric Metric with special float values
+# TYPE some_sentinel_metric gauge
+some_sentinel_metric{label="nan"} NaN
+some_sentinel_metric{label="inf"} +Inf
+some_sentinel_metric{label="neginf"} -Inf
+# HELP process_uptime_seconds The uptime of the Java virtual machine
+# TYPE process_uptime_seconds gauge
+process_uptime_seconds 12794.063
