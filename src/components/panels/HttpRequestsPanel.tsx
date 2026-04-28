@@ -25,11 +25,18 @@ interface Props {
   history: MetricsHistory;
 }
 
+const EXCLUDED_URIS = ['/actuator', '/actuator/prometheus'];
+
 function sumCountByStatus(metrics: ParsedMetric[], statusPrefix: string): number {
   const family = metrics.find((m) => m.metricName === 'http_server_requests_seconds');
   if (!family) return 0;
   return family.samples
-    .filter((s) => s.sampleName === 'http_server_requests_seconds_count' && s.labels.status?.startsWith(statusPrefix))
+    .filter(
+      (s) =>
+        s.sampleName === 'http_server_requests_seconds_count' &&
+        s.labels.status?.startsWith(statusPrefix) &&
+        !EXCLUDED_URIS.includes(s.labels.uri ?? ''),
+    )
     .reduce((sum, s) => sum + s.value, 0);
 }
 
@@ -52,8 +59,6 @@ function computeRateForStatus(
 function getTopEndpoints(metrics: ParsedMetric[]): { uri: string; count: number; avgMs: number }[] {
   const family = metrics.find((m) => m.metricName === 'http_server_requests_seconds');
   if (!family) return [];
-
-  const EXCLUDED_URIS = ['/actuator/prometheus', '/actuator'];
 
   const byUri = new Map<string, { count: number; sum: number }>();
   for (const sample of family.samples) {

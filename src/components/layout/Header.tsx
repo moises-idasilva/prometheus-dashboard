@@ -33,18 +33,6 @@ export function Header({
         </div>
 
         <div className="flex items-center gap-4">
-          <select
-            value={activeApiId}
-            onChange={(e) => onApiChange(e.target.value)}
-            className="bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            {apis.map((api) => (
-              <option key={api.id} value={api.id}>
-                {api.name}
-              </option>
-            ))}
-          </select>
-
           <div className="flex items-center gap-2 text-xs">
             {isLoading && (
               <span className="flex items-center gap-1 text-yellow-400">
@@ -70,6 +58,18 @@ export function Header({
               (every {refreshInterval / 1000}s)
             </span>
           </div>
+
+          <select
+            value={activeApiId}
+            onChange={(e) => onApiChange(e.target.value)}
+            className="bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            {apis.map((api) => (
+              <option key={api.id} value={api.id}>
+                {api.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
