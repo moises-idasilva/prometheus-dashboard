@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
-import { PanelCard, InfoRow } from '@/components/PanelCard';
+import { PanelCard, InfoRow, StatCard } from '@/components/PanelCard';
 
 const info = (
   <>
@@ -30,17 +30,6 @@ const info = (
 interface Props {
   latest: MetricsSnapshot | null;
   history: MetricsHistory;
-}
-
-function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="bg-gray-800 rounded-lg p-3 flex flex-col gap-1">
-      <span className={`text-xs uppercase tracking-wider ${color}`}>{label}</span>
-      <span className="text-white text-xl font-mono font-semibold">
-        {isNaN(value) ? '—' : Math.round(value)}
-      </span>
-    </div>
-  );
 }
 
 export function DbConnectionsPanel({ latest, history }: Props) {
@@ -64,11 +53,11 @@ export function DbConnectionsPanel({ latest, history }: Props) {
 
   return (
     <PanelCard title="Database Connections" info={info}>
-      <div className="grid grid-cols-2 gap-3">
-        <StatCard label="Active" value={active} color="text-orange-400" />
-        <StatCard label="Idle" value={idle} color="text-green-400" />
-        <StatCard label="Total" value={total} color="text-blue-400" />
-        <StatCard label="Pool Max" value={max} color="text-gray-400" />
+      <div className="grid grid-cols-2 gap-4">
+        <StatCard label="Active" value={isNaN(active) ? '—' : String(Math.round(active))} accent="border-orange-500/50" labelClass="text-orange-400" />
+        <StatCard label="Idle" value={isNaN(idle) ? '—' : String(Math.round(idle))} accent="border-emerald-500/50" labelClass="text-emerald-400" />
+        <StatCard label="Total" value={isNaN(total) ? '—' : String(Math.round(total))} accent="border-blue-500/50" labelClass="text-blue-400" />
+        <StatCard label="Pool Max" value={isNaN(max) ? '—' : String(Math.round(max))} />
       </div>
 
       {!isNaN(pending) && pending > 0 && (
@@ -80,7 +69,7 @@ export function DbConnectionsPanel({ latest, history }: Props) {
       {chartData.length > 1 && (
         <ResponsiveContainer width="100%" height={160}>
           <AreaChart data={chartData} margin={{ top: 4, right: 16, left: 4, bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
             <XAxis
               dataKey="ts"
               type="number"
@@ -91,7 +80,7 @@ export function DbConnectionsPanel({ latest, history }: Props) {
             />
             <YAxis tick={{ fill: '#9CA3AF', fontSize: 10 }} width={30} />
             <Tooltip
-              contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '6px', fontSize: '12px' }}
+              contentStyle={{ backgroundColor: '#111827', border: '1px solid #1f2937', borderRadius: '6px', fontSize: '12px' }}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               labelFormatter={(v: any) => new Date(v as number).toLocaleTimeString()}
             />

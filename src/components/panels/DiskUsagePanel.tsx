@@ -2,7 +2,7 @@
 
 import { MetricsSnapshot } from '@/types/metrics';
 import { formatBytes } from '@/lib/formatters';
-import { PanelCard, InfoRow } from '@/components/PanelCard';
+import { PanelCard, InfoRow, StatCard } from '@/components/PanelCard';
 
 const info = (
   <>
@@ -50,10 +50,10 @@ function getDiskEntries(latest: MetricsSnapshot | null): DiskEntry[] {
     .filter((e): e is DiskEntry => e !== null);
 }
 
-function usageColor(pct: number): string {
-  if (pct >= 90) return 'bg-red-500';
-  if (pct >= 75) return 'bg-yellow-500';
-  return 'bg-blue-500';
+function usageGradient(pct: number): string {
+  if (pct >= 90) return 'bg-gradient-to-r from-red-600 to-red-400';
+  if (pct >= 75) return 'bg-gradient-to-r from-yellow-600 to-yellow-400';
+  return 'bg-gradient-to-r from-blue-600 to-blue-400';
 }
 
 export function DiskUsagePanel({ latest }: Props) {
@@ -73,26 +73,17 @@ export function DiskUsagePanel({ latest }: Props) {
               </span>
             </div>
 
-            <div className="h-2.5 bg-gray-700 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all ${usageColor(pct)}`}
+                className={`h-full rounded-full transition-all duration-500 ${usageGradient(pct)}`}
                 style={{ width: `${Math.min(pct, 100).toFixed(1)}%` }}
               />
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { label: 'Used', value: used, color: 'text-white' },
-                { label: 'Free', value: free, color: 'text-green-400' },
-                { label: 'Total', value: total, color: 'text-gray-400' },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="bg-gray-800 rounded-lg p-2.5 text-center">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider">{label}</div>
-                  <div className={`text-sm font-mono font-semibold mt-0.5 ${color}`}>
-                    {formatBytes(value)}
-                  </div>
-                </div>
-              ))}
+            <div className="grid grid-cols-3 gap-4">
+              <StatCard label="Used" value={formatBytes(used)} />
+              <StatCard label="Free" value={formatBytes(free)} accent="border-emerald-500/40" labelClass="text-emerald-400" />
+              <StatCard label="Total" value={formatBytes(total)} />
             </div>
           </div>
         ))

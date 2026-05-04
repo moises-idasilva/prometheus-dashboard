@@ -2,7 +2,7 @@
 
 import { MetricsHistory, MetricsSnapshot, ParsedMetric } from '@/types/metrics';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
-import { PanelCard, InfoRow } from '@/components/PanelCard';
+import { PanelCard, InfoRow, StatCard } from '@/components/PanelCard';
 
 const info = (
   <>
@@ -102,19 +102,10 @@ export function HttpRequestsPanel({ latest, history }: Props) {
 
   return (
     <PanelCard title="HTTP Requests" info={info}>
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          { label: '2xx', value: total2xx, color: 'text-green-400' },
-          { label: '4xx', value: total4xx, color: 'text-yellow-400' },
-          { label: '5xx', value: total5xx, color: 'text-red-400' },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="bg-gray-800 rounded-lg p-3 text-center">
-            <div className={`text-xs uppercase tracking-wider ${color}`}>{label}</div>
-            <div className="text-white text-lg font-mono font-semibold">
-              {Math.round(value).toLocaleString()}
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard label="2xx" value={Math.round(total2xx).toLocaleString()} accent="border-emerald-500/50" labelClass="text-emerald-400" />
+        <StatCard label="4xx" value={Math.round(total4xx).toLocaleString()} accent="border-yellow-500/50" labelClass="text-yellow-400" />
+        <StatCard label="5xx" value={Math.round(total5xx).toLocaleString()} accent="border-red-500/50" labelClass="text-red-400" />
       </div>
 
       {chartData.length > 1 && (

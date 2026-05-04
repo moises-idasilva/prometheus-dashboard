@@ -33,7 +33,7 @@ export function TimeSeriesChart({
   return (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data} margin={{ top: 4, right: 16, left: 4, bottom: 4 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
         <XAxis
           dataKey="ts"
           type="number"
@@ -55,8 +55,8 @@ export function TimeSeriesChart({
         />
         <Tooltip
           contentStyle={{
-            backgroundColor: '#1F2937',
-            border: '1px solid #374151',
+            backgroundColor: '#111827',
+            border: '1px solid #1f2937',
             borderRadius: '6px',
             fontSize: '12px',
           }}

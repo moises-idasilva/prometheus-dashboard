@@ -44,10 +44,10 @@ function MemBar({ used, max, label }: { used: number; max: number; label: string
           {max !== -1 && isFinite(max) ? ` / ${formatBytesOrUnlimited(max)}` : ' / Unlimited'}
         </span>
       </div>
-      <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+      <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
         {pct !== null && (
           <div
-            className="h-full rounded-full bg-blue-500"
+            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400 transition-all duration-500"
             style={{ width: `${pct.toFixed(1)}%` }}
           />
         )}

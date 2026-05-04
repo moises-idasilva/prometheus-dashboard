@@ -22,13 +22,13 @@ export function Header({
   refreshInterval,
 }: HeaderProps) {
   return (
-    <header className="px-4 sm:px-6 py-3 bg-gray-900 border-b border-gray-700 sticky top-0 z-10">
+    <header className="px-4 sm:px-6 py-3 bg-gray-950/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-10">
       {/* Desktop */}
       <div className="hidden sm:flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-blue-400 text-lg">◎</span>
-          <h1 className="text-base font-semibold text-white tracking-wide">
-            Sparx Novate API Metrics Dashboard
+          <span className="text-blue-400/80 text-lg leading-none">◎</span>
+          <h1 className="text-sm font-semibold text-gray-100 tracking-tight">
+            Sparx Novate — API Metrics
           </h1>
         </div>
 
@@ -62,7 +62,7 @@ export function Header({
           <select
             value={activeApiId}
             onChange={(e) => onApiChange(e.target.value)}
-            className="bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60 hover:border-gray-600 transition-colors"
           >
             {apis.map((api) => (
               <option key={api.id} value={api.id}>
@@ -103,7 +103,7 @@ export function Header({
         <select
           value={activeApiId}
           onChange={(e) => onApiChange(e.target.value)}
-          className="w-full bg-gray-800 text-white border border-gray-600 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60"
         >
           {apis.map((api) => (
             <option key={api.id} value={api.id}>

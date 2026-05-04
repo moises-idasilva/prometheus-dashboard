@@ -11,6 +11,25 @@ export function InfoRow({ name, desc }: { name: string; desc: string }) {
   );
 }
 
+export function StatCard({
+  label,
+  value,
+  accent = 'border-gray-700/60',
+  labelClass = 'text-gray-500',
+}: {
+  label: string;
+  value: string;
+  accent?: string;
+  labelClass?: string;
+}) {
+  return (
+    <div className={`border-l-2 ${accent} pl-3 flex flex-col gap-1.5`}>
+      <span className={`${labelClass} text-xs font-medium tracking-wide`}>{label}</span>
+      <span className="text-white text-xl font-mono font-semibold tabular-nums leading-none">{value}</span>
+    </div>
+  );
+}
+
 interface Props {
   title: string;
   info: React.ReactNode;
@@ -34,15 +53,15 @@ export function PanelCard({ title, info, children, headerRight }: Props) {
   }, [open, close]);
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 border border-gray-700 flex flex-col gap-4">
+    <div className="bg-gray-900 rounded-xl p-5 border border-gray-800 ring-1 ring-white/[0.04] shadow-lg flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <button
           onClick={() => setOpen(true)}
-          className="group flex items-center gap-1.5 text-sm font-semibold text-gray-300 uppercase tracking-wider hover:text-blue-400 transition-colors text-left"
+          className="group flex items-center gap-1.5 text-sm font-semibold text-gray-200 hover:text-blue-400 transition-colors text-left"
         >
           {title}
           <svg
-            className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity shrink-0"
+            className="w-3.5 h-3.5 opacity-30 group-hover:opacity-80 transition-opacity shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -59,18 +78,18 @@ export function PanelCard({ title, info, children, headerRight }: Props) {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
           onClick={close}
         >
           <div
-            className="bg-gray-800 rounded-xl p-6 w-full max-w-lg border border-gray-600 shadow-2xl"
+            className="bg-gray-900 rounded-xl p-6 w-full max-w-lg border border-gray-700 ring-1 ring-white/[0.06] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between mb-4 gap-4">
-              <h3 className="text-base font-semibold text-white uppercase tracking-wider">{title}</h3>
+              <h3 className="text-base font-semibold text-white">{title}</h3>
               <button
                 onClick={close}
-                className="text-gray-400 hover:text-white transition-colors text-2xl leading-none mt-px shrink-0"
+                className="text-gray-500 hover:text-white transition-colors text-2xl leading-none mt-px shrink-0"
                 aria-label="Close"
               >
                 ×

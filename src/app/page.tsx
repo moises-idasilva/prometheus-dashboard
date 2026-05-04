@@ -44,7 +44,7 @@ export default function DashboardPage() {
         refreshInterval={activeApi?.refreshInterval ?? 30000}
       />
 
-      <main className="p-5 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+      <main className="p-5 mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
         <SystemOverviewPanel latest={latest} history={history} />
         <JvmMemoryPanel latest={latest} history={history} />
         <HttpRequestsPanel latest={latest} history={history} />

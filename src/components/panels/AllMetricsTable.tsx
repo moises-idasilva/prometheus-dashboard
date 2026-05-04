@@ -89,13 +89,13 @@ export function AllMetricsTable({ latest }: Props) {
         placeholder="Search metric name, labels, or help text..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 w-full max-w-md"
+        className="bg-gray-900/80 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500/60 hover:border-gray-600 transition-colors w-full max-w-md"
       />
 
       {latest ? (
-        <div className="overflow-x-auto max-h-96 overflow-y-auto rounded-lg border border-gray-700">
+        <div className="overflow-x-auto max-h-96 overflow-y-auto rounded-lg border border-gray-800">
           <table className="w-full text-xs border-collapse">
-            <thead className="sticky top-0 bg-gray-800">
+            <thead className="sticky top-0 bg-gray-900/95 backdrop-blur-sm">
               <tr>
                 <th className="text-left px-3 py-2 text-gray-400 font-medium w-1/3">Metric</th>
                 <th className="text-left px-3 py-2 text-gray-400 font-medium w-1/4">Labels</th>

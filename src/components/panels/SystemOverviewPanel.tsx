@@ -4,7 +4,7 @@ import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
 import { formatPercent, formatUptime } from '@/lib/formatters';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
-import { PanelCard, InfoRow } from '@/components/PanelCard';
+import { PanelCard, InfoRow, StatCard } from '@/components/PanelCard';
 
 const info = (
   <>
@@ -24,15 +24,6 @@ interface Props {
   history: MetricsHistory;
 }
 
-function StatCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-gray-800 rounded-lg p-4 flex flex-col gap-1">
-      <span className="text-gray-400 text-xs uppercase tracking-wider">{label}</span>
-      <span className="text-white text-xl font-mono font-semibold">{value}</span>
-    </div>
-  );
-}
-
 export function SystemOverviewPanel({ latest, history }: Props) {
   const m = latest?.metrics ?? [];
 
@@ -49,10 +40,10 @@ export function SystemOverviewPanel({ latest, history }: Props) {
 
   return (
     <PanelCard title="System Overview" info={info}>
-      <div className="grid grid-cols-3 gap-3">
-        <StatCard label="Process CPU" value={formatPercent(processCpu)} />
-        <StatCard label="System CPU" value={formatPercent(systemCpu)} />
-        <StatCard label="Uptime" value={formatUptime(uptime)} />
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard label="Process CPU" value={formatPercent(processCpu)} accent="border-blue-500/50" />
+        <StatCard label="System CPU" value={formatPercent(systemCpu)} accent="border-emerald-500/50" />
+        <StatCard label="Uptime" value={formatUptime(uptime)} accent="border-purple-500/40" />
       </div>
 
       {cpuCount > 0 && (

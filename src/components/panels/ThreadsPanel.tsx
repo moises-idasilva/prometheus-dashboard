@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import { MetricsHistory, MetricsSnapshot } from '@/types/metrics';
 import { findSampleValue } from '@/hooks/useMetrics';
-import { PanelCard, InfoRow } from '@/components/PanelCard';
+import { PanelCard, InfoRow, StatCard } from '@/components/PanelCard';
 
 const info = (
   <>
@@ -66,19 +66,10 @@ export function ThreadsPanel({ latest, history }: Props) {
 
   return (
     <PanelCard title="JVM Threads" info={info}>
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          { label: 'Live', value: liveThreads, color: 'text-green-400' },
-          { label: 'Daemon', value: daemonThreads, color: 'text-blue-400' },
-          { label: 'Peak', value: peakThreads, color: 'text-purple-400' },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="bg-gray-800 rounded-lg p-3 text-center">
-            <div className={`text-xs uppercase tracking-wider ${color}`}>{label}</div>
-            <div className="text-white text-xl font-mono font-semibold">
-              {isNaN(value) ? '—' : Math.round(value)}
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-3 gap-4">
+        <StatCard label="Live" value={isNaN(liveThreads) ? '—' : String(Math.round(liveThreads))} accent="border-emerald-500/50" labelClass="text-emerald-400" />
+        <StatCard label="Daemon" value={isNaN(daemonThreads) ? '—' : String(Math.round(daemonThreads))} accent="border-blue-500/50" labelClass="text-blue-400" />
+        <StatCard label="Peak" value={isNaN(peakThreads) ? '—' : String(Math.round(peakThreads))} accent="border-purple-500/40" labelClass="text-purple-400" />
       </div>
 
       {stateData.length > 0 && (
@@ -88,7 +79,7 @@ export function ThreadsPanel({ latest, history }: Props) {
             layout="vertical"
             margin={{ top: 4, right: 16, left: 4, bottom: 4 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" horizontal={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" horizontal={false} />
             <XAxis type="number" tick={{ fill: '#9CA3AF', fontSize: 10 }} />
             <YAxis
               type="category"
@@ -97,7 +88,7 @@ export function ThreadsPanel({ latest, history }: Props) {
               width={80}
             />
             <Tooltip
-              contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151', borderRadius: '6px', fontSize: '12px' }}
+              contentStyle={{ backgroundColor: '#111827', border: '1px solid #1f2937', borderRadius: '6px', fontSize: '12px' }}
             />
             <Bar dataKey="count" name="Threads">
               {stateData.map((entry) => (
