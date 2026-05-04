@@ -28,9 +28,16 @@
     "refreshInterval": 5000
   },
   {
-    "id": "grid-royale",
+    "id": "grid-royale-api",
     "name": "GRID ROYALE API",
     "url": "https://app.sparxnovate.com/grid-royale/actuator/prometheus",
+    "tokenEnvKey": "BEARER_TOKEN",
+    "refreshInterval": 5000
+  },
+  {
+    "id": "f1-api",
+    "name": "F1 API",
+    "url": "https://app.sparxnovate.com/f1-api/actuator/prometheus",
     "tokenEnvKey": "BEARER_TOKEN",
     "refreshInterval": 5000
   }
