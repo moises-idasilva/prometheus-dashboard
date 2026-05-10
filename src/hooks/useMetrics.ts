@@ -14,7 +14,7 @@ export interface UseMetricsResult {
   lastFetched: Date | null;
 }
 
-export function useMetrics(apiId: string, refreshInterval: number): UseMetricsResult {
+export function useMetrics(apiId: string | null, refreshInterval: number): UseMetricsResult {
   const [history, setHistory] = useState<MetricsHistory>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +25,7 @@ export function useMetrics(apiId: string, refreshInterval: number): UseMetricsRe
   apiIdRef.current = apiId;
 
   const fetchMetrics = useCallback(async () => {
+    if (!apiIdRef.current) return;
     setIsLoading(true);
     setError(null);
     try {
@@ -49,6 +50,8 @@ export function useMetrics(apiId: string, refreshInterval: number): UseMetricsRe
     setHistory([]);
     setError(null);
     setLastFetched(null);
+
+    if (!apiId) return;
 
     fetchMetrics();
     intervalRef.current = setInterval(fetchMetrics, refreshInterval);

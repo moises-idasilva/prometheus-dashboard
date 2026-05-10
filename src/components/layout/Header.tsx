@@ -64,6 +64,7 @@ export function Header({
             onChange={(e) => onApiChange(e.target.value)}
             className="bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60 hover:border-gray-600 transition-colors"
           >
+            <option value="all">ALL APIS</option>
             {apis.map((api) => (
               <option key={api.id} value={api.id}>
                 {api.name}
@@ -105,6 +106,7 @@ export function Header({
           onChange={(e) => onApiChange(e.target.value)}
           className="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60"
         >
+          <option value="all">ALL APIS</option>
           {apis.map((api) => (
             <option key={api.id} value={api.id}>
               {api.name}

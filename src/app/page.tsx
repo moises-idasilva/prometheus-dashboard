@@ -11,15 +11,18 @@ import { DbConnectionsPanel } from '@/components/panels/DbConnectionsPanel';
 import { ThreadsPanel } from '@/components/panels/ThreadsPanel';
 import { DiskUsagePanel } from '@/components/panels/DiskUsagePanel';
 import { AllMetricsTable } from '@/components/panels/AllMetricsTable';
+import { AllApisView } from '@/components/panels/AllApisView';
 
 const apis = getAllApis();
 
 export default function DashboardPage() {
   const [activeApiId, setActiveApiId] = useState(apis[0]?.id ?? '');
+
+  const isAllApis = activeApiId === 'all';
   const activeApi = apis.find((a) => a.id === activeApiId) ?? apis[0];
 
   const { history, latest, isLoading, error, lastFetched } = useMetrics(
-    activeApiId,
+    isAllApis ? null : activeApiId,
     activeApi?.refreshInterval ?? 30000
   );
 
@@ -44,17 +47,21 @@ export default function DashboardPage() {
         refreshInterval={activeApi?.refreshInterval ?? 30000}
       />
 
-      <main className="p-5 mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-        <SystemOverviewPanel latest={latest} history={history} />
-        <JvmMemoryPanel latest={latest} history={history} />
-        <HttpRequestsPanel latest={latest} history={history} />
-        <DbConnectionsPanel latest={latest} history={history} />
-        <ThreadsPanel latest={latest} history={history} />
-        <DiskUsagePanel latest={latest} />
-        <div className="col-span-1 lg:col-span-2 xl:col-span-3">
-          <AllMetricsTable latest={latest} />
-        </div>
-      </main>
+      {isAllApis ? (
+        <AllApisView apis={apis} />
+      ) : (
+        <main className="p-5 mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+          <SystemOverviewPanel latest={latest} history={history} />
+          <JvmMemoryPanel latest={latest} history={history} />
+          <HttpRequestsPanel latest={latest} history={history} />
+          <DbConnectionsPanel latest={latest} history={history} />
+          <ThreadsPanel latest={latest} history={history} />
+          <DiskUsagePanel latest={latest} />
+          <div className="col-span-1 lg:col-span-2 xl:col-span-3">
+            <AllMetricsTable latest={latest} />
+          </div>
+        </main>
+      )}
     </div>
   );
 }
