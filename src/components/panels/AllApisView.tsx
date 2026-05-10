@@ -77,8 +77,8 @@ function HeapBar({ used, max }: { used: number; max: number }) {
   );
 }
 
-function ApiSummaryCard({ api }: { api: ApiConfig }) {
-  const { latest, isLoading, error } = useMetrics(api.id, api.refreshInterval);
+function ApiSummaryCard({ api, refreshInterval }: { api: ApiConfig; refreshInterval: number }) {
+  const { latest, isLoading, error } = useMetrics(api.id, refreshInterval);
   const m = latest?.metrics ?? [];
 
   const uptime = findSampleValue(m, 'process_uptime_seconds');
@@ -162,11 +162,11 @@ function ApiSummaryCard({ api }: { api: ApiConfig }) {
   );
 }
 
-export function AllApisView({ apis }: { apis: ApiConfig[] }) {
+export function AllApisView({ apis, refreshInterval }: { apis: ApiConfig[]; refreshInterval: number }) {
   return (
     <div className="p-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
       {apis.map((api) => (
-        <ApiSummaryCard key={api.id} api={api} />
+        <ApiSummaryCard key={api.id} api={api} refreshInterval={refreshInterval} />
       ))}
     </div>
   );

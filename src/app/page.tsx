@@ -16,14 +16,14 @@ import { AllApisView } from '@/components/panels/AllApisView';
 const apis = getAllApis();
 
 export default function DashboardPage() {
-  const [activeApiId, setActiveApiId] = useState(apis[0]?.id ?? '');
+  const [activeApiId, setActiveApiId] = useState('all');
+  const [refreshInterval, setRefreshInterval] = useState(5000);
 
   const isAllApis = activeApiId === 'all';
-  const activeApi = apis.find((a) => a.id === activeApiId) ?? apis[0];
 
   const { history, latest, isLoading, error, lastFetched } = useMetrics(
     isAllApis ? null : activeApiId,
-    activeApi?.refreshInterval ?? 30000
+    refreshInterval
   );
 
   if (apis.length === 0) {
@@ -44,11 +44,12 @@ export default function DashboardPage() {
         isLoading={isLoading}
         lastFetched={lastFetched}
         error={error}
-        refreshInterval={activeApi?.refreshInterval ?? 30000}
+        refreshInterval={refreshInterval}
+        onRefreshIntervalChange={setRefreshInterval}
       />
 
       {isAllApis ? (
-        <AllApisView apis={apis} />
+        <AllApisView apis={apis} refreshInterval={refreshInterval} />
       ) : (
         <main className="p-5 mx-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
           <SystemOverviewPanel latest={latest} history={history} />
