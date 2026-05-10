@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAllApis } from '@/lib/apiConfig';
 import { useMetrics } from '@/hooks/useMetrics';
 import { Header } from '@/components/layout/Header';
@@ -18,6 +18,7 @@ const apis = getAllApis();
 export default function DashboardPage() {
   const [activeApiId, setActiveApiId] = useState('all');
   const [refreshInterval, setRefreshInterval] = useState(5000);
+  const [allApisLastFetched, setAllApisLastFetched] = useState<Date | null>(null);
 
   const isAllApis = activeApiId === 'all';
 
@@ -25,6 +26,13 @@ export default function DashboardPage() {
     isAllApis ? null : activeApiId,
     refreshInterval
   );
+
+  useEffect(() => {
+    if (!isAllApis) return;
+    setAllApisLastFetched(new Date());
+    const id = setInterval(() => setAllApisLastFetched(new Date()), refreshInterval);
+    return () => clearInterval(id);
+  }, [isAllApis, refreshInterval]);
 
   if (apis.length === 0) {
     return (
@@ -42,7 +50,7 @@ export default function DashboardPage() {
         activeApiId={activeApiId}
         onApiChange={setActiveApiId}
         isLoading={isLoading}
-        lastFetched={lastFetched}
+        lastFetched={isAllApis ? allApisLastFetched : lastFetched}
         error={error}
         refreshInterval={refreshInterval}
         onRefreshIntervalChange={setRefreshInterval}
