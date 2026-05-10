@@ -1,6 +1,32 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { ApiConfig } from '@/types/metrics';
+
+function CountdownTimer({ lastFetched, refreshInterval }: { lastFetched: Date; refreshInterval: number }) {
+  const [remaining, setRemaining] = useState(refreshInterval);
+
+  useEffect(() => {
+    const tick = () => {
+      const elapsed = Date.now() - lastFetched.getTime();
+      setRemaining(Math.max(0, refreshInterval - elapsed));
+    };
+    tick();
+    const id = setInterval(tick, 500);
+    return () => clearInterval(id);
+  }, [lastFetched, refreshInterval]);
+
+  const secs = Math.ceil(remaining / 1000);
+  const label = secs >= 60
+    ? `${Math.floor(secs / 60)}m ${secs % 60 > 0 ? `${secs % 60}s` : ''}`.trim()
+    : `${secs}s`;
+
+  return (
+    <span className="text-gray-500 text-xs tabular-nums" title="Next sync in">
+      {label}
+    </span>
+  );
+}
 
 const REFRESH_OPTIONS = [
   { label: '5 seconds',  value: 5000 },
@@ -71,15 +97,20 @@ export function Header({
             )}
           </div>
 
-          <select
-            value={refreshInterval}
-            onChange={(e) => onRefreshIntervalChange(Number(e.target.value))}
-            className={selectClass}
-          >
-            {REFRESH_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2">
+            <select
+              value={refreshInterval}
+              onChange={(e) => onRefreshIntervalChange(Number(e.target.value))}
+              className={selectClass}
+            >
+              {REFRESH_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+            {lastFetched && (
+              <CountdownTimer lastFetched={lastFetched} refreshInterval={refreshInterval} />
+            )}
+          </div>
 
           <select
             value={activeApiId}
@@ -124,15 +155,20 @@ export function Header({
           </div>
         </div>
         <div className="flex gap-2">
-          <select
-            value={refreshInterval}
-            onChange={(e) => onRefreshIntervalChange(Number(e.target.value))}
-            className="bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60 w-24"
-          >
-            {REFRESH_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2">
+            <select
+              value={refreshInterval}
+              onChange={(e) => onRefreshIntervalChange(Number(e.target.value))}
+              className="bg-gray-900 text-gray-100 border border-gray-700 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500/60"
+            >
+              {REFRESH_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+            {lastFetched && (
+              <CountdownTimer lastFetched={lastFetched} refreshInterval={refreshInterval} />
+            )}
+          </div>
           <select
             value={activeApiId}
             onChange={(e) => onApiChange(e.target.value)}
