@@ -16,7 +16,7 @@ import { AllApisView } from '@/components/panels/AllApisView';
 const apis = getAllApis();
 
 export default function DashboardPage() {
-  const [activeApiId, setActiveApiId] = useState('all');
+  const [activeApiId, setActiveApiId] = useState(apis.length === 1 ? apis[0].id : 'all');
   const [refreshInterval, setRefreshInterval] = useState(5000);
   const [allApisLastFetched, setAllApisLastFetched] = useState<Date | null>(null);
 
