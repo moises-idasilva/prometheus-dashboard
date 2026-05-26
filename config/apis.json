@@ -2,42 +2,7 @@
   {
     "id": "cashflow",
     "name": "CASHFLOW API",
-    "url": "https://app.sparxnovate.com/cashflow/actuator/prometheus",
-    "tokenEnvKey": "BEARER_TOKEN",
-    "refreshInterval": 5000
-  },
-  {
-    "id": "sow",
-    "name": "SOW API",
-    "url": "https://app.sparxnovate.com/sow/actuator/prometheus",
-    "tokenEnvKey": "BEARER_TOKEN",
-    "refreshInterval": 5000
-  },
-  {
-    "id": "budget",
-    "name": "BUDGET API",
-    "url": "https://app.sparxnovate.com/budget/actuator/prometheus",
-    "tokenEnvKey": "BEARER_TOKEN",
-    "refreshInterval": 5000
-  },
-  {
-    "id": "teleet",
-    "name": "TELEET API",
-    "url": "https://app.sparxnovate.com/gw/actuator/prometheus",
-    "tokenEnvKey": "BEARER_TOKEN",
-    "refreshInterval": 5000
-  },
-  {
-    "id": "grid-royale-api",
-    "name": "GRID ROYALE API",
-    "url": "https://app.sparxnovate.com/grid-royale/actuator/prometheus",
-    "tokenEnvKey": "BEARER_TOKEN",
-    "refreshInterval": 5000
-  },
-  {
-    "id": "f1-api",
-    "name": "F1 API",
-    "url": "https://app.sparxnovate.com/f1-api/actuator/prometheus",
+    "url": "https://api.multiversetech.net/cashflow/actuator/prometheus",
     "tokenEnvKey": "BEARER_TOKEN",
     "refreshInterval": 5000
   }
