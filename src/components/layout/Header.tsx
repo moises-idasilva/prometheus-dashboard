@@ -69,7 +69,7 @@ export function Header({
         <div className="flex items-center gap-3">
           <span className="text-blue-400/80 text-lg leading-none">◎</span>
           <h1 className="text-sm font-semibold text-gray-100 tracking-tight">
-            Sparx Novate — API Metrics
+            Multiverse Tech — API Metrics
           </h1>
         </div>
 
@@ -130,7 +130,7 @@ export function Header({
       {/* Mobile */}
       <div className="flex sm:hidden flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-sm font-semibold text-white tracking-wide">SN APIs</h1>
+          <h1 className="text-sm font-semibold text-white tracking-wide">Multiverse Tech APIs</h1>
           <div className="flex items-center gap-2 text-xs">
             {isLoading && (
               <span className="flex items-center gap-1 text-yellow-400">

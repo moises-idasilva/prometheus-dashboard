@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'SN API Metrics',
+  title: 'Multiverse Tech API Metrics',
   description: 'Live JVM metrics visualization',
 };
 

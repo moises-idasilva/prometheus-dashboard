@@ -18,7 +18,7 @@ npx jest __tests__/prometheusParser.test.ts
 
 ## Architecture
 
-**Next.js 14 App Router** with a single dashboard page. The app proxies Prometheus `/actuator/prometheus` endpoints from several Sparx Novate microservices through a Next.js API route, then parses and renders the metrics client-side.
+**Next.js 14 App Router** with a single dashboard page. The app proxies Prometheus `/actuator/prometheus` endpoints from several Multiverse Tech microservices through a Next.js API route, then parses and renders the metrics client-side.
 
 ### Data flow
 
