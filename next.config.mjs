@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/metrics',
+  basePath: '/',
   env: {
-    NEXT_PUBLIC_BASE_PATH: '/metrics',
+    NEXT_PUBLIC_BASE_PATH: '/',
   },
 };
 
